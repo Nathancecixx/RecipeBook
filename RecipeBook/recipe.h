@@ -14,6 +14,8 @@ typedef struct recipe {
 
 RECIPE CreateRecipe(int NumberOfSteps, char* Name);
 
-bool AddIngredientToRecipe(RECIPE recipe, int Num, char* Name);
+bool AddIngredientToRecipe(RECIPE* recipe, int Num, char* Name);
+
+bool CompareRecipe(RECIPE LH, RECIPE RH);
 
 RECIPE CopyRecipe(RECIPE recipe);

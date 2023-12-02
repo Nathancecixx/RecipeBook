@@ -24,6 +24,14 @@ bool AddIngredientToRecipe(RECIPE* recipe, int Num, char* Name) {
 
 }
 
+bool CompareRecipe(RECIPE LH, RECIPE RH) {
+    if (strcmp(LH.name, RH.name) == 0)
+        return true;
+    return false;
+
+
+}
+
 RECIPE CopyRecipe(RECIPE recipe) {
     RECIPE r;
     r.ingredientHead = recipe.ingredientHead;

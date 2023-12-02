@@ -1,7 +1,7 @@
 #include <string.h>
 #include "step.h"
 
-STEP CreateStep(int Num, char* Instruction) {
+/*STEP CreateStep(int Num, char* Instruction) {
 	STEP step;
 
 	step.num = Num;
@@ -23,4 +23,4 @@ char* GetStepinstruction(STEP step) {
 STEP CopyStep(STEP step) {
 
 
-}
+}*/

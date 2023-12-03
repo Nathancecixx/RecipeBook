@@ -1,21 +1,28 @@
 #pragma once
 
-#include <string.h>
 #include <stdbool.h>
-#include "listnode.h"
+#include "ingredient.h"
+#include "step.h"
+
+#define MAX_RECIPE_NAME       25
 
 typedef struct recipe {
-    int numberOfSteps;
-    char name[25];
-    PLISTNODE ingredientHead;
-    PLISTNODE stepHead;
-}RECIPE;
+    char name[MAX_RECIPE_NAME];
+    INGREDIENT* ingredientList;
+    STEP* stepList;
+}RECIPE, * PRECIPE;
 
-
-RECIPE CreateRecipe(int NumberOfSteps, char* Name);
-
-bool AddIngredientToRecipe(RECIPE* recipe, int Num, char* Name);
-
-bool CompareRecipe(RECIPE LH, RECIPE RH);
-
+//C
+RECIPE CreateRecipe(char* Name, INGREDIENT* IngredientList, STEP* StepList);
 RECIPE CopyRecipe(RECIPE recipe);
+
+//R
+void DisplayRecipe(RECIPE RecipeHead);
+
+char* GetRecipeName(RECIPE* recipe);
+
+//U
+bool SetRecipeName(RECIPE* recipe, char* Name);
+
+//D
+void DestroyRecipe(RECIPE* recipe);

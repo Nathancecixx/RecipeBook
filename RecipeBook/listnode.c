@@ -1,59 +1,77 @@
-
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "listnode.h"
 
-bool PushRecipeToList(PLISTNODE* ListHead, DATA data) {
-	PLISTNODE current = ListHead;
 
-	PLISTNODE NewNode = (PLISTNODE) malloc(sizeof(NewNode));
-	if (NewNode == NULL)
-		return false;
+void DisplayList(PLISTNODE ListHead) {
+    PLISTNODE current = ListHead;
 
-	NewNode->data = CopyData(data);
-	NewNode->next = current->next;
+    printf("Recipes: \n");
 
-	ListHead = NewNode;
-
-	return true;
+    while (current != NULL) {
+        DisplayRecipe(current->recipe);
+        current = current->next;
+    }
 }
 
-bool PushIngredientToList(PLISTNODE* ListHead, DATA recipe, DATA data) {
-	PLISTNODE current = ListHead;
-	if (current == NULL)
-		return false;
+void AddRecipeToList(PLISTNODE* ListHead, RECIPE recipe) {
+    PLISTNODE NewNode = (PLISTNODE)malloc(sizeof(LISTNODE));
 
+    NewNode->recipe = CopyRecipe(recipe);
 
-	PLISTNODE NewNode = (PLISTNODE)malloc(sizeof(NewNode));
-	if (NewNode == NULL)
-		return false;
-
-	while (current != NULL) {
-		if (CompareRecipe(current->data.recipe, recipe.recipe)) {
-			NewNode->next = current->next;
-			current->data.recipe.ingredientHead = NewNode;
-			break;
-		}
-	}
-
-	return true;
+    NewNode->next = *ListHead;
+    *ListHead = NewNode;
 }
 
-bool PushStepToList(PLISTNODE* ListHead, char* RecipeName, DATA data) {
+bool RemoveRecipeFromList(PLISTNODE* ListHead, char* Name) {
+    PLISTNODE current = *ListHead;
 
+    //    Check if the first item is what we are looking for
+    if (current != NULL && strcmp(current->recipe.name, Name) == 0) {
+        //        Check if theres a second item to set the head to
+        if (current->next != NULL) {
+            *ListHead = current->next;
+            //            if not then set head to NULL
+        }
+        else {
+            *ListHead = NULL;
+        }
+        //        Destroy first item
+        DestroyNode(current);
+        return true;
+    }
+
+    //    There is a first item and its not what we want.
+    //    iterate through list until we find it or end
+    PLISTNODE prev = NULL;
+    while (current != NULL && strcmp(current->recipe.name, Name) != 0) {
+        prev = current;
+        current = current->next;
+    }
+
+    //    Check if we are at the end of list
+    if (current == NULL)
+        return false;
+
+    //    We must have found it therefore remove it from chain
+    //    and Destroy it
+    prev->next = current->next;
+    DestroyNode(current);
+    return true;
 }
 
-void DestroyRecipeList(PLISTNODE* ListHead) {
-	PLISTNODE current = *ListHead;
-	while (current != NULL) {
-		PLISTNODE tmp = current;
-		current = current->next;
-		//Destroy Data
-		free(tmp);
-	}
-	ListHead = NULL;
-
+void DestroyNode(PLISTNODE ListNode) {
+    DestroyRecipe(&ListNode->recipe);
+    free(ListNode);
 }
 
-void DestroyIngredientList(PLISTNODE* ListHead) {
+void DestroyList(PLISTNODE* ListHead) {
+    PLISTNODE current = *ListHead;
 
+    //    Iterate through destroying each node in list
+    while (current != NULL) {
+        DestroyNode(current);
+        current = current->next;
+    }
 }

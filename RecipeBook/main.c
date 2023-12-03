@@ -1,30 +1,62 @@
-
 #include <stdio.h>
+#include "menu.h"
 #include "listnode.h"
-#include "data.h"
 
-void main(void) {
+int main() {
 
-	PLISTNODE RecipeHead = NULL;
+    //-----------------------------------------------
+    //              Initialize Program
+    //-----------------------------------------------
 
-	PushRecipeToList(RecipeHead, CreateDataFromRecipe(CreateRecipe(5, "Cinamon Buns")));
-	PushIngredientToList(RecipeHead, CreateDataFromRecipe(CreateRecipe(1, "Cinamon Buns")), CreateDataFromIngredient(CreateIngredient(1, "Cinamon")));
-
-
-	PLISTNODE current = RecipeHead;
-	while (current != NULL) {
-		PLISTNODE currentIngredient = current->data.recipe.ingredientHead;
-		printf("The recipe name is: %s\n", current->data.recipe.name);
-
-		printf("Ingredients:\n");
-		while (currentIngredient != NULL) {
-			printf("$s \n", currentIngredient->data.ingredient.name);
-		}
-		
-	}
+    PLISTNODE ListHead = NULL;
 
 
-	DestroyIngredientList(RecipeHead);
-	DestroyRecipeList(RecipeHead);
 
+    //-----------------------------------------------
+    //              Update Program
+    //-----------------------------------------------
+
+    int flag = 1;
+    while (flag) {
+        PrintMenu();
+        char input = TakeInput();
+
+        switch (input) {
+
+        case 'a':
+            printf("a selected\n");
+            break;
+
+        case 'b':
+            printf("b selected\n");
+            break;
+
+        case 'c':
+            printf("c selected\n");
+            break;
+
+        case 'd':
+            printf("d selected\n");
+            break;
+
+        case 'e':
+            printf("e selected\n");
+            break;
+
+        case 'f':
+            flag = 0;
+            break;
+
+        default:
+            fprintf(stderr, "Input Error: invalid input\n");
+            break;
+        }
+    }
+
+
+    //-----------------------------------------------
+    //             De-Initialize Program
+    //-----------------------------------------------
+
+    return 0;
 }

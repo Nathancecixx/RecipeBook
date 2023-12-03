@@ -131,15 +131,19 @@
     <ClCompile Include="Ingredient.c" />
     <ClCompile Include="listnode.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="menu.c" />
     <ClCompile Include="recipe.c" />
     <ClCompile Include="step.c" />
+    <ClCompile Include="utility.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="data.h" />
     <ClInclude Include="ingredient.h" />
     <ClInclude Include="listnode.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="recipe.h" />
     <ClInclude Include="step.h" />
+    <ClInclude Include="utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

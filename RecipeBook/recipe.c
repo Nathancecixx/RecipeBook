@@ -1,43 +1,57 @@
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "recipe.h"
 
 
-
-RECIPE CreateRecipe(int NumberOfSteps, char* Name) {
+//C
+RECIPE CreateRecipe(char* Name, INGREDIENT* IngredientList, STEP* StepList) {
     RECIPE recipe;
 
-    recipe.numberOfSteps = NumberOfSteps;
-    strncpy(recipe.name, Name, 25);
-    recipe.ingredientHead = NULL;
-    recipe.stepHead = NULL;
+    strncpy(recipe.name, Name, MAX_RECIPE_NAME);
+    recipe.ingredientList = IngredientList;
+    recipe.stepList = StepList;
 
     return recipe;
 }
 
-bool AddIngredientToRecipe(RECIPE* recipe, int Num, char* Name) {
-    PLISTNODE current = recipe->ingredientHead;
-    while (current != NULL) {
-        current = current->next;
-    }
+RECIPE CopyRecipe(RECIPE Recipe) {
+    RECIPE newRecipe;
 
-    current->data = CreateDataFromIngredient(CreateIngredient(Num, Name));
+    strncpy(newRecipe.name, Recipe.name, MAX_RECIPE_NAME);
+    newRecipe.stepList = Recipe.stepList;
+    newRecipe.ingredientList = Recipe.ingredientList;
 
+    return newRecipe;
 }
 
-bool CompareRecipe(RECIPE LH, RECIPE RH) {
-    if (strcmp(LH.name, RH.name) == 0)
-        return true;
-    return false;
 
-
+//R
+void DisplayRecipe(RECIPE Recipe) {
+    printf("Name: %s\n", Recipe.name);
+    printf("Ingredients: \n");
+    DisplayIngredients();
+    printf("Steps: \n");
+    DisplaySteps();
 }
 
-RECIPE CopyRecipe(RECIPE recipe) {
-    RECIPE r;
-    r.ingredientHead = recipe.ingredientHead;
-    r.stepHead = recipe.stepHead;
-    r.numberOfSteps = recipe.numberOfSteps;
-    strncpy(r.name, recipe.name, 25);
+char* GetRecipeName(RECIPE* recipe) {
+    return recipe->name;
+}
 
-    return r;
+//U
+bool SetRecipeName(RECIPE* recipe, char* Name) {
+    if (recipe == NULL)
+        return false;
+
+    strncpy(recipe->name, Name, MAX_RECIPE_NAME);
+    return true;
+}
+
+//D
+void DestroyRecipe(RECIPE* recipe) {
+    DestroyIngredient(recipe->ingredientList);
+    DestroySteps(recipe->stepList);
+
 }

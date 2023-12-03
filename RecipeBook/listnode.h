@@ -1,19 +1,18 @@
 #pragma once
 
-#include "data.h"
+#include "recipe.h"
 
 typedef struct listnode {
-	DATA data;
-	struct listnode* next;
-}LISTNODE, *PLISTNODE;
+    RECIPE recipe;
+    struct listnode* next;
+}LISTNODE, * PLISTNODE;
 
+void DisplayList(PLISTNODE ListHead);
 
-bool PushRecipeToList(PLISTNODE* ListHead, DATA data);
+void AddRecipeToList(PLISTNODE* ListHead, RECIPE recipe);
 
-bool PushIngredientToList(PLISTNODE* ListHead, DATA recipe, DATA data);
+bool RemoveRecipeFromList(PLISTNODE* ListHead, char* Name);
 
-bool PushStepToList(PLISTNODE* ListHead, char* RecipeName, DATA data);
+void DestroyNode(PLISTNODE ListNode);
 
-void DestroyRecipeList(PLISTNODE* ListHead);
-
-void DestroyIngredientList(PLISTNODE* ListHead);
+void DestroyList(PLISTNODE* ListHead);

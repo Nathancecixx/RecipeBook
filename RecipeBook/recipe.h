@@ -14,11 +14,12 @@ typedef struct recipe {
     RECIPE_TYPE recipeType;
     int ingredientCount;
     INGREDIENT* ingredientList;
+    int stepCount;
     STEP* stepList;
 }RECIPE, * PRECIPE;
 
 //C
-RECIPE CreateRecipe(char* Name, RECIPE_TYPE RecipeType, int IngredientCount, INGREDIENT* IngredientList, STEP* StepList);
+RECIPE CreateRecipe(char* Name, RECIPE_TYPE RecipeType, int IngredientCount, INGREDIENT* IngredientList, int StepCount, STEP* StepList);
 RECIPE CopyRecipe(RECIPE recipe);
 
 //R

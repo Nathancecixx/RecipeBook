@@ -5,13 +5,16 @@
 
 
 //C
-RECIPE CreateRecipe(char* Name, RECIPE_TYPE RecipeType, int IngredientCount, INGREDIENT* IngredientList, STEP* StepList) {
+RECIPE CreateRecipe(char* Name, RECIPE_TYPE RecipeType, int IngredientCount, INGREDIENT* IngredientList, int StepCount, STEP* StepList) {
     RECIPE recipe;
 
     recipe.recipeType = RecipeType;
     strncpy(recipe.name, Name, MAX_RECIPE_NAME);
+
     recipe.ingredientCount = IngredientCount;
     recipe.ingredientList = IngredientList;
+
+    recipe.stepCount = StepCount;
     recipe.stepList = StepList;
 
     return recipe;
@@ -22,8 +25,11 @@ RECIPE CopyRecipe(RECIPE Recipe) {
 
     newRecipe.recipeType = Recipe.recipeType;
     strncpy(newRecipe.name, Recipe.name, MAX_RECIPE_NAME);
+
     newRecipe.ingredientCount = Recipe.ingredientCount;
     newRecipe.ingredientList = Recipe.ingredientList;
+
+    newRecipe.stepCount = Recipe.stepCount;
     newRecipe.stepList = Recipe.stepList;
 
     return newRecipe;
@@ -45,7 +51,11 @@ void DisplayRecipe(RECIPE Recipe) {
         DisplayIngredient(Recipe.ingredientList[i]);
     }
 
-    printf("    Steps: \n       Blank\n");
+    printf("\n    Steps: \n");
+    for (int i = 0; i < Recipe.stepCount; i++) {
+        DisplayStep(Recipe.stepList[i]);
+    }
+
     //DisplaySteps();
 }
 

@@ -9,7 +9,7 @@ STEP CreateStep(int Num, char* Sentance) {
     STEP step;
 
     step.num = Num;
-    strcpy(step.sentance, Sentance);
+    step.sentance = Sentance;
     return step;
 }
 STEP CopyStep(STEP dest) {
@@ -21,9 +21,10 @@ STEP CopyStep(STEP dest) {
 }
 
 void DisplayStep(STEP step) {
-    printf("        %s\n", step.sentance);
+    printf("        %d) %s\n", step.num, step.sentance);
 }
 
 void DestroyStep(STEP* step) {
+    free(step->sentance);
     free(step);
 }

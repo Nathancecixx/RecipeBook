@@ -26,6 +26,8 @@ bool DisplayAllRecipe(PLISTNODE* ListHead);
 
 bool SearchForRecipeInList(PLISTNODE* ListHead);
 
+char* takeInputAsSentance(char* Prompt);
+
 RECIPE_TYPE takeInputAsRecipeType(char* Prompt);
 
 char takeInputAsChar(char* Prompt);

@@ -31,18 +31,18 @@ bool AddNewRecipeToList(PLISTNODE* ListHead) {
     }
 
 
-    INGREDIENT* tmpPtr = NULL;
-    int count = 0;
+    INGREDIENT* tmpIngredientPtr = NULL;
+    int ingredientCount = 0;
 
     //    Populate list, dynamically resizing based on how many inputs
     do {
         //        Checks if there's enough space allocated in the ingredient list.
-        if (count >= numOfIngredients) {
+        if (ingredientCount >= numOfIngredients) {
             numOfIngredients += CHUNK_OF_LIST;
-            tmpPtr = IngredientList;
+            tmpIngredientPtr = IngredientList;
             IngredientList = realloc(IngredientList, (sizeof(INGREDIENT) * numOfIngredients));
             if (IngredientList == NULL) {
-                free(tmpPtr);
+                free(tmpIngredientPtr);
                 free(recipeName);
                 return false;
             }
@@ -50,9 +50,9 @@ bool AddNewRecipeToList(PLISTNODE* ListHead) {
 
         //        There is enough space so add a new Ingredient
         char* ingredientName = takeInputAsString("Please enter Ingredient's name");
-        IngredientList[count] = CreateIngredient(count, ingredientName);
+        IngredientList[ingredientCount] = CreateIngredient(ingredientCount, ingredientName);
         free(ingredientName);
-        count++;
+        ingredientCount++;
 
     } while (takeInputAsChar("Would you like to add another Ingredient? (Y/N)") == 'y');
 
@@ -66,12 +66,34 @@ bool AddNewRecipeToList(PLISTNODE* ListHead) {
         free(IngredientList);
         return false;
     }
-    /********************************
-     * IMPLEMENT STEPS BUILDER HERE *
-     ********************************/
 
-     //    Create the recipe and free tmp name memory
-    RECIPE recipe = CreateRecipe(recipeName, RecipeType, count, IngredientList, StepsList);
+    STEP* tmpStepPtr = NULL;
+    int stepCount = 0;
+
+    //    Populate list, dynamically resizing based on how many inputs
+    do {
+        //        Checks if there's enough space allocated in the steps list.
+        if (stepCount >= numOfSteps) {
+            numOfSteps += CHUNK_OF_LIST;
+            tmpStepPtr = StepsList;
+            StepsList = realloc(StepsList, (sizeof(STEP) * numOfSteps));
+            if (StepsList == NULL) {
+                free(tmpStepPtr);
+                free(recipeName);
+                return false;
+            }
+        }
+
+        //        There is enough space so add a new Ingredient
+        char* StepSentance = takeInputAsSentance("Please enter the Step");
+        StepsList[stepCount] = CreateStep(stepCount, StepSentance);
+        stepCount++;
+
+    } while (takeInputAsChar("Would you like to add another Step? (Y/N)") == 'y');
+
+
+    //    Create the recipe and free tmp name memory
+    RECIPE recipe = CreateRecipe(recipeName, RecipeType, ingredientCount, IngredientList, stepCount, StepsList);
     free(recipeName);
 
 
@@ -96,9 +118,58 @@ bool DeleteRecipeFromList(PLISTNODE* ListHead) {
     return true;
 }
 
-/*bool UpdateRecipeInList(PLISTNODE* ListHead){
+bool UpdateRecipeInList(PLISTNODE* ListHead) {
+    printf(""
+        "\n+--------------------------------------------------------+"
+        "\n|                   Edit Recipe Menu:                    |"
+        "\n+--------------------------------------------------------+\n");
 
-}*/
+    char* userInput = takeInputAsString("Enter the name of the recipe you would like to edit(Type 'Back' to exit)");
+
+    //    Prompt until valid recipe is entered
+    while (SearchNodeInList(ListHead, userInput) != true) {
+        if (strcmp("Back", userInput) == 0)
+            return false;
+
+        userInput = takeInputAsString("Recipe not found, please try again");
+    }
+
+
+    printf(""
+        "\n+--------------------------------------------------------+\n"
+        "| Choose how you would like to edit:                     |\n"
+        "| a) Recipe Name                                         |\n"
+        "| b) Recipe Type                                         |\n"
+        "| c) Ingredient List                                     |\n"
+        "| d) Steps List                                          |\n"
+        "| e) Back                                                |\n"
+        "+--------------------------------------------------------+\n");
+
+    int flag = 1;
+
+    while (flag) {
+        char input = takeInputAsChar("To choose an option, enter its letter label: ");
+        switch (input) {
+        case 'a':
+            //TODO: Edit recipe name
+        case 'b':
+            //TODO: Edit Recipe Type
+        case 'c':
+            //TODO: Edit Ingredient list
+        case 'd':
+            //TODO: Edit Steps List
+            break;
+        case 'e':
+            flag = 0;
+            break;
+        default:
+            fprintf(stderr, "INPUT ERROR: Please try again\n");
+            break;
+        }
+    }
+
+    return true;
+}
 
 bool DisplayOptions(PLISTNODE* ListHead) {
 
@@ -158,9 +229,68 @@ bool DisplayAllRecipe(PLISTNODE* ListHead) {
     return true;
 }
 
-/*bool SearchForRecipeInList(PLISTNODE* ListHead){
+bool SearchForRecipeInList(PLISTNODE* ListHead) {
 
-}*/
+    //    Take the recipes name
+    printf(""
+        "\n+--------------------------------------------------------+"
+        "\n|                  Search for a recipe:                  |"
+        "\n+--------------------------------------------------------+");
+
+    char* recipeName = takeInputAsString("\nPlease enter the recipe's name you wish to search for:");
+
+    if (SearchNodeInList(ListHead, recipeName)) {
+        printf("\nRecipe exists!\n");
+
+    }
+    else {
+        printf("\nRecipe has not been added yet.\n");
+    }
+    return true;
+}
+
+char* takeInputAsSentance(char* Prompt) {
+
+    printf("%s\n", Prompt);
+
+    //    Size is set to 1 chunk of chars which is 20,
+    //    this allocationInChars increments in chunks whenever the
+    //    input is greater than the current allocationInChars
+    int allocationInChars = CHUNK_OF_LIST;
+
+    char* userString = (char*)malloc(sizeof(char) * allocationInChars);
+    if (userString == NULL)
+        return NULL;
+
+    //    temp pointer to avoid memory leaks when re allocating memory
+    char* tmpPtr = NULL;
+    int charCount = 0;
+    char currentChar;
+
+    //    loops until end of line or file
+    while ((currentChar = (char)getc(stdin)) != '\n' && currentChar != EOF) {
+
+        userString[charCount] = currentChar;
+
+        charCount++;
+
+        //        Checks if there are more chars than the allocationInChars of allocation,
+        //        if so then add another chunk and re-allocate
+        if (charCount >= allocationInChars) {
+            allocationInChars += CHUNK_OF_LIST;
+            tmpPtr = userString;
+            userString = realloc(userString, (sizeof(char) * allocationInChars));
+            if (userString == NULL) {
+                free(tmpPtr);
+                return NULL;
+            }
+        }
+    }
+
+    //    Sets null terminator and returns string
+    userString[charCount] = '\0';
+    return userString;
+}
 
 RECIPE_TYPE takeInputAsRecipeType(char* Prompt) {
     printf(""

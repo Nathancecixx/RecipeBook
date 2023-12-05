@@ -40,7 +40,7 @@ int main() {
             break;
 
         case 'c':
-            printf("c selected\n");
+            UpdateRecipeInList(&ListHead);
             break;
 
         case 'd':
@@ -49,7 +49,8 @@ int main() {
             break;
 
         case 'e':
-            printf("e selected\n");
+            if (!SearchForRecipeInList(&ListHead))
+                printf("Failed to search for recipe.");
             break;
 
         case 'f':

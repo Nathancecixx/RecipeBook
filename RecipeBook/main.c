@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdbool.h>
+#include "utility.h"
 #include "menu.h"
 #include "listnode.h"
 
@@ -24,11 +26,17 @@ int main() {
         switch (input) {
 
         case 'a':
-            printf("a selected\n");
+            if (!AddNewRecipeToList(&ListHead))
+                printf("Failed to add new recipe.\n");
+            else
+                printf("Seccusfully added new recipe.\n");
             break;
 
         case 'b':
-            printf("b selected\n");
+            if (!DeleteRecipeFromList(&ListHead))
+                printf("Failed to delete recipe.\n");
+            else
+                printf("Seccusfully deleted recipe.\n");
             break;
 
         case 'c':
@@ -36,7 +44,8 @@ int main() {
             break;
 
         case 'd':
-            printf("d selected\n");
+            if (!DisplayOptions(&ListHead))
+                printf("Failed to display.\n");
             break;
 
         case 'e':
@@ -57,6 +66,8 @@ int main() {
     //-----------------------------------------------
     //             De-Initialize Program
     //-----------------------------------------------
+
+    DestroyList(&ListHead);
 
     return 0;
 }

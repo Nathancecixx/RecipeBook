@@ -1,13 +1,14 @@
 #pragma once
 
+typedef enum { WEIGHT, VOLUME }MEASUREMENT_TYPE;
+
 typedef struct ingredient {
-    int Num;
+    int num;
     char name[25];
-}INGREDIENT;
+}INGREDIENT, PINGREDIENT;
 
-INGREDIENT CreateIngredient(int Num, char* name);
+INGREDIENT CreateIngredient(int Num, char* Name);
 
-int GetIngredientNum(INGREDIENT ingredient);
-char* GetIngredientName(INGREDIENT ingredient);
+void DisplayIngredient(INGREDIENT ingredient);
 
-INGREDIENT CopyIngredient(INGREDIENT ingredient);
+void DestroyIngredient(INGREDIENT* ingredient);

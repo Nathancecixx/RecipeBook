@@ -1,29 +1,22 @@
-#include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "ingredient.h"
-
 
 INGREDIENT CreateIngredient(int Num, char* Name) {
     INGREDIENT ingredient;
 
-    ingredient.Num = Num;
+    ingredient.num = Num;
     strncpy(ingredient.name, Name, 25);
 
     return ingredient;
 }
 
-int GetIngredientNum(INGREDIENT ingredient) {
-    return ingredient.Num;
-}
-char* GetIngredientName(INGREDIENT ingredient) {
-    return ingredient.name;
+
+void DisplayIngredient(INGREDIENT ingredient) {
+    printf("        %s\n", ingredient.name);
 }
 
-INGREDIENT CopyIngredient(INGREDIENT ingredient) {
-    INGREDIENT i;
-    
-    i.Num = ingredient.Num;
-    strncpy(i.name, ingredient.name, 25);
-
-    return i;
+void DestroyIngredient(INGREDIENT* ingredient) {
+    free(ingredient);
 }

@@ -127,7 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="data.c" />
     <ClCompile Include="Ingredient.c" />
     <ClCompile Include="listnode.c" />
     <ClCompile Include="main.c" />
@@ -137,7 +136,6 @@
     <ClCompile Include="utility.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="data.h" />
     <ClInclude Include="ingredient.h" />
     <ClInclude Include="listnode.h" />
     <ClInclude Include="menu.h" />

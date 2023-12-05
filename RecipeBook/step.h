@@ -1,16 +1,14 @@
 #pragma once
 
-typedef struct {
-	int num;
-	char* instruction;
+typedef struct step {
+    int num;
+    char* sentance;
 }STEP;
 
 
+STEP CreateStep(int Num, char* Sentance);
+STEP CopyStep(STEP Step);
 
-STEP CreateStep(int Num, char* Name);
+void DisplayStep(STEP step);
 
-int GetStepNum(STEP step);
-
-char* GetStepinstruction(STEP step)
-
-STEP CopyStep(STEP setp);
+void DestroyStep(STEP* step);

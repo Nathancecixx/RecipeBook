@@ -6,25 +6,54 @@
 
 void DisplayList(PLISTNODE ListHead) {
     PLISTNODE current = ListHead;
-
-    printf("Recipes: \n");
-
+    //    Checks if list is empty
+    if (current == NULL)
+        printf("\n\nList is empty.\n");
+    //    prints out list
     while (current != NULL) {
         DisplayRecipe(current->recipe);
         current = current->next;
     }
 }
 
-void AddRecipeToList(PLISTNODE* ListHead, RECIPE recipe) {
+void DisplayListRange(PLISTNODE ListHead, RECIPE_TYPE RecipeType) {
+    PLISTNODE current = ListHead;
+    //    Checks if list is empty
+    if (current == NULL)
+        printf("\n\nList is empty.\n");
+    //    prints out list
+    while (current != NULL) {
+        if (GetRecipeType(current->recipe) == RecipeType)
+            DisplayRecipe(current->recipe);
+        current = current->next;
+    }
+}
+
+void DisplayRecipeInList(PLISTNODE ListHead, char* RecipeName) {
+    PLISTNODE current = ListHead;
+    while (current != NULL && strcmp(current->recipe.name, RecipeName) != 0) {
+        current = current->next;
+    }
+
+    if (current == NULL)
+        fprintf(stderr, "Unable to find recipe in list.\n");
+
+    DisplayRecipe(current->recipe);
+}
+
+bool AddNodeToList(PLISTNODE* ListHead, RECIPE recipe) {
     PLISTNODE NewNode = (PLISTNODE)malloc(sizeof(LISTNODE));
+    if (NewNode == NULL)
+        return false;
 
     NewNode->recipe = CopyRecipe(recipe);
 
     NewNode->next = *ListHead;
     *ListHead = NewNode;
+    return true;
 }
 
-bool RemoveRecipeFromList(PLISTNODE* ListHead, char* Name) {
+bool RemoveNodeFromList(PLISTNODE* ListHead, char* Name) {
     PLISTNODE current = *ListHead;
 
     //    Check if the first item is what we are looking for
@@ -58,6 +87,25 @@ bool RemoveRecipeFromList(PLISTNODE* ListHead, char* Name) {
     //    and Destroy it
     prev->next = current->next;
     DestroyNode(current);
+    return true;
+}
+
+bool SearchNodeInList(PLISTNODE* ListHead, char* Name) {
+    PLISTNODE current = *ListHead;
+
+    //    There is a first item and its not what we want.
+    //    iterate through list until we find it or end
+    PLISTNODE prev = NULL;
+    while (current != NULL && strcmp(current->recipe.name, Name) != 0) {
+        prev = current;
+        current = current->next;
+    }
+
+    //    Check if we are at the end of list
+    if (current == NULL)
+        return false;
+
+    //    We must have found it
     return true;
 }
 

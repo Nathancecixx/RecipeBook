@@ -1,12 +1,13 @@
 #pragma once
 
+
 #include "listnode.h"
 #include "recipe.h"
 #include "ingredient.h"
 #include "step.h"
 
-//This is the interface for the functions needed to interact with data
-
+#define CHUNK_OF_LIST   5
+#define DIFF_BETWEEN_CASES    32
 
 
 bool AddNewRecipeToList(PLISTNODE* ListHead);
@@ -15,10 +16,20 @@ bool DeleteRecipeFromList(PLISTNODE* ListHead);
 
 bool UpdateRecipeInList(PLISTNODE* ListHead);
 
-bool DisplayRecipeInList(PLISTNODE* ListHead);
+bool DisplayOptions(PLISTNODE* ListHead);
 
-bool DisplayRecipeRangeInList(PLISTNODE* ListHead);
+bool DisplaySingleRecipe(PLISTNODE* ListHead);
 
-bool DisplayAllRecipeInList(PLISTNODE* ListHead);
+bool DisplayRecipeRange(PLISTNODE* ListHead);
+
+bool DisplayAllRecipe(PLISTNODE* ListHead);
 
 bool SearchForRecipeInList(PLISTNODE* ListHead);
+
+RECIPE_TYPE takeInputAsRecipeType(char* Prompt);
+
+char takeInputAsChar(char* Prompt);
+
+char* takeInputAsString(char* InputType);
+
+void clearInputBuffer();

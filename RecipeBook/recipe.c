@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,10 +5,12 @@
 
 
 //C
-RECIPE CreateRecipe(char* Name, INGREDIENT* IngredientList, STEP* StepList) {
+RECIPE CreateRecipe(char* Name, RECIPE_TYPE RecipeType, int IngredientCount, INGREDIENT* IngredientList, STEP* StepList) {
     RECIPE recipe;
 
+    recipe.recipeType = RecipeType;
     strncpy(recipe.name, Name, MAX_RECIPE_NAME);
+    recipe.ingredientCount = IngredientCount;
     recipe.ingredientList = IngredientList;
     recipe.stepList = StepList;
 
@@ -19,9 +20,11 @@ RECIPE CreateRecipe(char* Name, INGREDIENT* IngredientList, STEP* StepList) {
 RECIPE CopyRecipe(RECIPE Recipe) {
     RECIPE newRecipe;
 
+    newRecipe.recipeType = Recipe.recipeType;
     strncpy(newRecipe.name, Recipe.name, MAX_RECIPE_NAME);
-    newRecipe.stepList = Recipe.stepList;
+    newRecipe.ingredientCount = Recipe.ingredientCount;
     newRecipe.ingredientList = Recipe.ingredientList;
+    newRecipe.stepList = Recipe.stepList;
 
     return newRecipe;
 }
@@ -29,16 +32,31 @@ RECIPE CopyRecipe(RECIPE Recipe) {
 
 //R
 void DisplayRecipe(RECIPE Recipe) {
-    printf("Name: %s\n", Recipe.name);
-    printf("Ingredients: \n");
-    DisplayIngredients();
-    printf("Steps: \n");
-    DisplaySteps();
+    int spacesNeeded = 35 - (int)strlen(Recipe.name);
+    printf(""
+        "\n+--------------------------------------------------------+"
+        "\n|         %s%*s            |"
+        "\n+--------------------------------------------------------+", Recipe.name, spacesNeeded, "");
+
+    //    printf("Name: %s\n", Recipe.name);
+
+    printf("\n    Ingredients: \n");
+    for (int i = 0; i < Recipe.ingredientCount; i++) {
+        DisplayIngredient(Recipe.ingredientList[i]);
+    }
+
+    printf("    Steps: \n       Blank\n");
+    //DisplaySteps();
 }
 
 char* GetRecipeName(RECIPE* recipe) {
     return recipe->name;
 }
+
+RECIPE_TYPE GetRecipeType(RECIPE recipe) {
+    return recipe.recipeType;
+}
+
 
 //U
 bool SetRecipeName(RECIPE* recipe, char* Name) {
@@ -52,6 +70,6 @@ bool SetRecipeName(RECIPE* recipe, char* Name) {
 //D
 void DestroyRecipe(RECIPE* recipe) {
     DestroyIngredient(recipe->ingredientList);
-    DestroySteps(recipe->stepList);
+    //DestroySteps(recipe->stepList);
 
 }

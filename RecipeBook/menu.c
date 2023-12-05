@@ -3,9 +3,14 @@
 #include "menu.h"
 
 void PrintMenu() {
-    printf(""
-        "\n+--------------------------------------------------------+\n"
+    printf("\n"
+        "+--------------------------------------------------------+\n"
+        "|  +-----------------+                         BETA: 1.0 |\n"
+        "|  | Recipe Book CLI |                                   |\n"
+        "|  +-----------------+                                   |\n"
+        "|                                                        |\n"
         "| To choose a function, enter its letter label:          |\n"
+        "|                                                        |\n"
         "| a) Add a new recipe                                    |\n"
         "| b) Delete an existing recipe                           |\n"
         "| c) Update an existing recipe                           |\n"

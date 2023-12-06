@@ -1,7 +1,8 @@
+#include "ingredient.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "ingredient.h"
+
 
 INGREDIENT CreateIngredient(int Num, char* Name) {
     INGREDIENT ingredient;

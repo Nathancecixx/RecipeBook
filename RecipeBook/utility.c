@@ -1,7 +1,7 @@
+#include "utility.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "utility.h"
 
 
 bool AddNewRecipeToList(PLISTNODE* ListHead) {

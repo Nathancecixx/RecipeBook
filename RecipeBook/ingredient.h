@@ -1,5 +1,5 @@
 #pragma once
-
+#define _CRT_SECURE_NO_WARNINGS
 typedef enum { WEIGHT, VOLUME }MEASUREMENT_TYPE;
 
 typedef struct ingredient {

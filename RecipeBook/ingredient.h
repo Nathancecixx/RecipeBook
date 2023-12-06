@@ -12,3 +12,5 @@ INGREDIENT CreateIngredient(int Num, char* Name);
 void DisplayIngredient(INGREDIENT ingredient);
 
 void DestroyIngredient(INGREDIENT* ingredient);
+
+char* getIngredient(INGREDIENT);

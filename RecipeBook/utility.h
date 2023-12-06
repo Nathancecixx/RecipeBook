@@ -35,3 +35,9 @@ char takeInputAsChar(char* Prompt);
 char* takeInputAsString(char* InputType);
 
 void clearInputBuffer();
+
+
+RECIPE* getRecipe(PLISTNODE* ListHead, char* Name);
+bool editIngredient(RECIPE* recipe);
+char* takeUpdatedIngredientName(char* prompt);
+void setNewIngredient(INGREDIENT* ingredient, char* ingredientName, int ingredientNumber);

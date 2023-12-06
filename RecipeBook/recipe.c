@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
 //C
 RECIPE CreateRecipe(char* Name, RECIPE_TYPE RecipeType, int IngredientCount, INGREDIENT* IngredientList, int StepCount, STEP* StepList) {
     RECIPE recipe;
@@ -48,7 +47,7 @@ void DisplayRecipe(RECIPE Recipe) {
 
     printf("\n    Ingredients: \n");
     for (int i = 0; i < Recipe.ingredientCount; i++) {
-        DisplayIngredient(Recipe.ingredientList[i]);
+        printf("        %s\n", getIngredient(Recipe.ingredientList[i]));
     }
 
     printf("\n    Steps: \n");

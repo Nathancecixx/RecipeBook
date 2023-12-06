@@ -155,7 +155,9 @@ bool UpdateRecipeInList(PLISTNODE* ListHead) {
         case 'b':
             //TODO: Edit Recipe Type
         case 'c':
-            //TODO: Edit Ingredient list
+            editIngredient(getRecipe(ListHead, userInput));
+            flag = 0;
+            break;
         case 'd':
             //TODO: Edit Steps List
             break;
@@ -169,6 +171,103 @@ bool UpdateRecipeInList(PLISTNODE* ListHead) {
     }
 
     return true;
+}
+
+RECIPE* getRecipe(PLISTNODE* ListHead, char* Name)
+{
+    PLISTNODE current = *ListHead;
+
+    //    There is a first item and its not what we want.
+    //    iterate through list until we find it or end
+    PLISTNODE prev = NULL;
+    while (current != NULL && strcmp(current->recipe.name, Name) != 0) {
+        prev = current;
+        current = current->next;
+    }
+
+    if (current == NULL)
+    {
+        return NULL;
+    }
+
+    return &current->recipe;
+}
+
+
+bool editIngredient(RECIPE* recipe)
+{
+    int flag = 1;
+
+    int userInput = 0;
+    printf("Press 1 to add a new ingredient, and press 2 to edit an existing ingredient\n");
+
+    while (scanf("%d", &userInput) != 1 || (userInput != 1 && userInput != 2))
+    {
+        printf("Invalid input, Please enter 1 or 2");
+        clearInputBuffer();
+    }
+
+    if (userInput == 1)
+    {
+        int ingredientNum = recipe->ingredientCount;
+        INGREDIENT* ingredientList = recipe->ingredientList;
+        INGREDIENT* tempIngredientPtr = ingredientList;
+
+        ingredientList = realloc(ingredientList, (sizeof(INGREDIENT) * ingredientNum));
+        if (ingredientList == NULL)
+        {
+            printf("Failed to create a new ingredient");
+            ingredientList = tempIngredientPtr;
+            return false;
+        }
+
+        
+        char* name = (char*)malloc((MAX_RECIPE_NAME) + 1);
+
+        strncpy(name, takeUpdatedIngredientName("Please input the new Ingredient: "), MAX_RECIPE_NAME);
+
+        ingredientList[ingredientNum] = CreateIngredient(ingredientNum + 1, name);
+
+        free(name);
+        recipe->ingredientCount++;
+    }
+    else if (userInput == 2)
+    {
+        int ingredientChoice = 0;
+        printf("Please select the ingredient you'd like to edit by entering its corresponding number\n");
+        for (int i = 0; i < recipe->ingredientCount; i++)
+        {
+            int displayNumber = i+1;
+            printf("%d) %s\n",displayNumber, getIngredient(recipe->ingredientList[i]));
+        }
+        while (scanf("%d", &ingredientChoice) != 1 || (ingredientChoice < 0 || ingredientChoice > recipe->ingredientCount))
+        {
+            printf("Invalid input, please enter one of the corresponding numbers");
+            clearInputBuffer();
+        }
+
+        ingredientChoice--;
+
+        char* updatedIngredient = takeUpdatedIngredientName("Please enter the updated ingredient: ");
+        strncpy(recipe->ingredientList[ingredientChoice].name, updatedIngredient, MAX_RECIPE_NAME);
+        return true;
+    }
+}
+
+char* takeUpdatedIngredientName(char* prompt)
+{
+    printf("\n%s", prompt);
+
+    char userInput[MAX_RECIPE_NAME];
+
+    clearInputBuffer();
+
+    while (fgets(userInput, sizeof(userInput), stdin) == NULL)
+    {
+        printf("Issue taking updated ingredient name, please try again");
+    }
+
+    return userInput;
 }
 
 bool DisplayOptions(PLISTNODE* ListHead) {
@@ -210,7 +309,16 @@ bool DisplayOptions(PLISTNODE* ListHead) {
 }
 
 bool DisplaySingleRecipe(PLISTNODE* ListHead) {
-    return false;
+    char* recipeName = takeInputAsString("Please enter the name of the name of the recipe you wish to display: ");
+
+    if (!SearchNodeInList(ListHead, recipeName))
+    {
+        printf("This recipe does not exist");
+        return false;
+    }
+    RECIPE* recipeToPrint = getRecipe(ListHead, recipeName);
+
+    DisplayRecipe(*recipeToPrint);
 }
 
 bool DisplayRecipeRange(PLISTNODE* ListHead) {

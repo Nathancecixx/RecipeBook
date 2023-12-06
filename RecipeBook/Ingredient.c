@@ -13,11 +13,11 @@ INGREDIENT CreateIngredient(int Num, char* Name) {
     return ingredient;
 }
 
-
-void DisplayIngredient(INGREDIENT ingredient) {
-    printf("        %s\n", ingredient.name);
-}
-
 void DestroyIngredient(INGREDIENT* ingredient) {
     free(ingredient);
+}
+
+char* getIngredient(INGREDIENT ingredient)
+{
+    return ingredient.name;
 }

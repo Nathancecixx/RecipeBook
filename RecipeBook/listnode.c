@@ -119,7 +119,8 @@ void DestroyList(PLISTNODE* ListHead) {
 
     //    Iterate through destroying each node in list
     while (current != NULL) {
-        DestroyNode(current);
+        PLISTNODE tmpPtr = current;
         current = current->next;
+        DestroyNode(tmpPtr);
     }
 }
